@@ -67,6 +67,12 @@ class AuthController extends Controller
         ]);
     }
 
+    public function me()
+    {
+        // return response()->json(auth()->user());
+        return response()->json(auth()->user());
+    }
+
     public function logout()
     {
         Auth::logout();
