@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use App\Models\User;
+use Illuminate\Http\JsonResponse;
 
 class AuthController extends Controller
 {
@@ -69,8 +70,7 @@ class AuthController extends Controller
 
     public function me()
     {
-        // return response()->json(auth()->user());
-        return response()->json(auth()->user());
+        return new JsonResponse(auth()->user());
     }
 
     public function logout()
