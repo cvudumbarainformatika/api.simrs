@@ -70,7 +70,8 @@ class AuthController extends Controller
 
     public function me()
     {
-        return new JsonResponse(auth()->user());
+        // return new JsonResponse(auth()->user());
+        return response()->json(auth()->user());
     }
 
     public function logout()
