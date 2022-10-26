@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
@@ -90,10 +91,9 @@ class UserController extends Controller
                 'data' => $dataUser
             ];
             return response()->json($response, 201);
-        } catch (QueryException $e) {
-            return response()->json([
-                'message' => 'Failed' . $e->errorInfo
-            ], 500);
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return response()->json(['message' => 'ada kesalahan', 'error' => $e], 500);
         }
     }
 

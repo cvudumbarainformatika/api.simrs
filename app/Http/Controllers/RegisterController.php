@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Register;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 
 class RegisterController extends Controller
@@ -46,10 +47,9 @@ class RegisterController extends Controller
                 'message' => 'Register berhasil',
                 'register' => $register
             ], 201);
-        } catch (QueryException $e) {
-            return response()->json([
-                'message' => 'Failed' . $e->errorInfo
-            ], 500);
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return response()->json(['message' => 'ada kesalahan', 'error' => $e], 500);
         }
     }
 
