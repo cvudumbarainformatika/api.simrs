@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -25,6 +26,12 @@ Route::middleware('api')->group(function () {
 
     Route::get('/user', [UserController::class, 'index']);
     Route::post('/user/{id}', [UserController::class, 'update']);
+
+    // Route::post('/registeruser', [RegisterController::class, 'registeruser']);
+});
+
+Route::controller(RegisterController::class)->group(function () {
+    Route::post('/registeruser', 'registeruser');
 });
 
 // Route::controller(AuthController::class)->group(function () {

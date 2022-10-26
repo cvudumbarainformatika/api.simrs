@@ -25,11 +25,10 @@ class RegisterController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function registeruser(Request $request)
     {
         $request->validate([
             'nama' => 'required|string',
-            'nik' => 'required|numeric',
             'email' => 'required|string|email|unique:users',
             'password' => 'required|string|min:6'
         ]);
