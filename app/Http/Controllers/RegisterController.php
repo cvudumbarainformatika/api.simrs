@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Register;
+use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 
 class RegisterController extends Controller
 {
@@ -25,6 +27,31 @@ class RegisterController extends Controller
      */
     public function store(Request $request)
     {
+        $request->validate([
+            'nama' => 'required|string',
+            'nik' => 'required|numeric',
+            'email' => 'required|string|email|unique:users',
+            'password' => 'required|string|min:6'
+        ]);
+
+        try {
+            $register = Register::create([
+                'nama' => $request->nama,
+                'nik' => $request->nik,
+                'email' => $request->email,
+                'password' => Hash::make($request->password)
+            ]);
+
+            return response()->json([
+                'status' => 'success',
+                'message' => 'Register berhasil',
+                'register' => $register
+            ], 201);
+        } catch (QueryException $e) {
+            return response()->json([
+                'message' => 'Failed' . $e->errorInfo
+            ], 500);
+        }
     }
 
     /**

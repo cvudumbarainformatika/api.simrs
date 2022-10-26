@@ -93,7 +93,7 @@ class UserController extends Controller
         } catch (QueryException $e) {
             return response()->json([
                 'message' => 'Failed' . $e->errorInfo
-            ]);
+            ], 500);
         }
     }
 
