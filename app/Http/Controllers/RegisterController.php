@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Register;
+use App\Models\User;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -30,8 +31,8 @@ class RegisterController extends Controller
     {
         $request->validate([
             'nama' => 'required|string',
-            'email' => 'required|string|email|unique:users',
-            'password' => 'required|string|min:6'
+            'email' => 'required|string|email',
+            // 'password' => 'required|string|min:6'
         ]);
 
         try {
@@ -39,12 +40,23 @@ class RegisterController extends Controller
                 'nama' => $request->nama,
                 'nik' => $request->nik,
                 'email' => $request->email,
-                'password' => Hash::make($request->password)
+                // 'password' => Hash::make($request->password)
             ]);
+
+            // if ($register) {
+            //     User::create([
+            //         'name' => $request->nama,
+            //         'email' => $request->email,
+            //         'password' => Hash::make('12345678'),
+            //         'role' => 'register',
+            //         'status' => 'tidak aktif',
+            //         'register_id' => $register->id
+            //     ]);
+            // }
 
             return response()->json([
                 'status' => 'success',
-                'message' => 'Register berhasil',
+                'message' => 'Register Tersimpan',
                 'register' => $register
             ], 201);
         } catch (\Exception $e) {
@@ -59,9 +71,15 @@ class RegisterController extends Controller
      * @param  \App\Models\Register  $register
      * @return \Illuminate\Http\Response
      */
-    public function show(Register $register)
+    public function show(Register $register, $id)
     {
-        //
+        $register = Register::findOrFail($id);
+        $register->load('user');
+        $response = [
+            'message' => 'Detail data',
+            'data' => $register
+        ];
+        return response()->json($response);
     }
 
     /**

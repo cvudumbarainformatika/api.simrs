@@ -32,6 +32,7 @@ Route::middleware('api')->group(function () {
 
 Route::controller(RegisterController::class)->group(function () {
     Route::post('/registeruser', 'registeruser');
+    Route::get('/registerme/{id}', 'show');
 });
 
 // Route::controller(AuthController::class)->group(function () {

@@ -10,4 +10,9 @@ class Register extends Model
     use HasFactory;
     protected $table = 'registers';
     protected $guarded;
+
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'user_id');
+    }
 }
