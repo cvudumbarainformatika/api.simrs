@@ -18,7 +18,8 @@ class RegisterController extends Controller
      */
     public function index()
     {
-        //
+        $register = Register::all();
+        return response()->json($register, 200);
     }
 
     /**
