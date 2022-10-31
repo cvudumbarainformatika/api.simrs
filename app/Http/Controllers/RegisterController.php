@@ -38,9 +38,11 @@ class RegisterController extends Controller
 
         try {
             $register = Register::create([
-                'nama' => $request->nama,
                 'nik' => $request->nik,
+                'nama' => $request->nama,
                 'email' => $request->email,
+                'password' => '12345678',
+                'status' => 1,
                 // 'password' => Hash::make($request->password)
             ]);
 

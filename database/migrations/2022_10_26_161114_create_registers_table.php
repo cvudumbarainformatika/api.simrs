@@ -22,6 +22,7 @@ return new class extends Migration
             $table->bigInteger('norekening')->nullable();
             $table->string('email')->unique();
             $table->string('password');
+            $table->tinyInteger('status')->default(1)->comment('1 : Butuh konfirmasi, 2 : Email terkirim, 3 : Terkonfirmasi');
             $table->timestamps();
         });
     }

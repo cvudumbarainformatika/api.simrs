@@ -76,7 +76,7 @@ class UserController extends Controller
         $dataUser = User::findOrFail($id);
         $request->validate([
             'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users',
+            'email' => 'required|string|email|max:255',
             'password' => 'required|string|min:6',
         ]);
 
