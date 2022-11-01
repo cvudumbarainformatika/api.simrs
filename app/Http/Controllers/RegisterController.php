@@ -92,9 +92,48 @@ class RegisterController extends Controller
      * @param  \App\Models\Register  $register
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Register $register)
+    public function update(Request $request, $id)
     {
-        //
+        $dataRegister = Register::findOrFail($id);
+        $request->validate([
+            'nama' => 'required|string',
+            'email' => 'required|string|email',
+        ]);
+        try {
+            $dataRegister->update([
+                'nik' => $request->nik,
+                'nama' => $request->nama,
+                'email' => $request->email,
+                'status' => 2,
+                'password' => '12345678'
+            ]);
+            if ($dataRegister) {
+                $data = User::create([
+                    'email' => $request->email,
+                    'password' => Hash::make('12345678'),
+                    'name' => $request->nama,
+                    'status' => 'aktif',
+                    'role' => 'surveor'
+                ]);
+                $dataRegister->update([
+                    'user_id' => $data->id
+                ]);
+                $kirimEmail = ([
+                    'name' => $data->name,
+                    'email' =>  $data->email,
+                ]);
+                KirimEmailController::index($kirimEmail);
+            }
+
+            $response = [
+                'message' => 'data register berhasil di perbarui',
+                'data' => $dataRegister
+            ];
+            return response()->json($response, 201);
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return response()->json(['message' => 'ada kesalahan', 'error' => $e], 500);
+        }
     }
 
     /**

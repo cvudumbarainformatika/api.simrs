@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Mail\kirimEmail;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 
@@ -10,20 +11,21 @@ use function Symfony\Component\String\b;
 
 class KirimEmailController extends Controller
 {
-    public function index()
+    public static function index($data)
     {
 
-        $pesan = "<p><b>Simrs</b></p><br/>";
+        $pesan = "<p><b>SISTEM INFORMASI LIPA MITRA NUSA</b></p><br/>";
         $pesan .= "<p><img src='https://drive.google.com/uc?export=view&id=1FlNA5Ajf_XG05w1TAT6qmSxwodzT1w1n' width='200'/></p>";
-        $pesan .= "<p>Username = coba@gmail.com </p>";
-        $pesan .= "<p>password = 123456 </p>";
+        $pesan .= "<p>Nama Lengkap = " . $data['name'] . " </p>";
+        $pesan .= "<p>Email = " . $data['email'] . " </p>";
+        $pesan .= "<p>password = 12345678 </p>";
 
         $data_email = [
             'subject' => 'Info penting !',
             'sender_name' => 'faran.f4124n@gmail.com',
             'isi' => $pesan
         ];
-        Mail::to('faran.f4124n@gmail.com')->send(new kirimEmail($data_email));
-        return 'Email terkirim';
+        Mail::to($data['email'])->send(new kirimEmail($data_email));
+        return new JsonResponse(['message' => 'Success'], 200);
     }
 }

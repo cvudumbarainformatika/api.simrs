@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\KirimEmailController;
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\SendEmailController;
 use App\Http\Controllers\UserController;
@@ -28,15 +29,19 @@ Route::middleware('api')->group(function () {
     Route::get('/user', [UserController::class, 'index']);
     Route::post('/user/{id}', [UserController::class, 'update']);
 
+    Route::post('/registeredit/{id}', [RegisterController::class, 'update']);
+
     Route::get('/send', [SendEmailController::class, 'kirimnotifikasi']);
     // Route::post('/registeruser', [RegisterController::class, 'registeruser']);
 });
 
 Route::controller(RegisterController::class)->group(function () {
     Route::post('/registeruser', 'registeruser');
-    Route::post('/registerme/{id}', 'show');
+    Route::get('/registerme/{id}', 'show');
     Route::get('/dataregister', 'index');
 });
+
+
 
 
 

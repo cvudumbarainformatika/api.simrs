@@ -4,25 +4,30 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use App\Notifications\SendEmailNotification;
+use Illuminate\Http\JsonResponse;
 use Notification;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Notification as FacadesNotification;
 
 class SendEmailController extends Controller
 {
-    public function kirimnotifikasi()
+    public static function kirimnotifikasi($data)
     {
-        $user = User::all();
+        return new JsonResponse($data);
+        $user = User::findOrFail($data->id);
 
         $details = [
-            'greeting' => 'Hi, developer',
-            'body' => 'ini email body',
-            'actiontext' => 'email actions text',
-            'actionurl' => '/',
-            'lastline' => 'lastline'
+            'greeting' => 'Username: ' . $data->name,
+            'body' => $data->body,
+            'actiontext' => $data->action,
+            'actionurl' => $data->url,
+            'lastline' => $data->lastline
         ];
 
         FacadesNotification::send($user, new SendEmailNotification($details));
-        dd('done');
+        return [
+            'status' => 'success',
+            'message' => 'Register Tersimpan',
+        ];
     }
 }
