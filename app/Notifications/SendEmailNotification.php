@@ -45,6 +45,9 @@ class SendEmailNotification extends Notification
             ->line($this->details['body'])
             ->action($this->details['actiontext'], $this->details['actionurl'])
             ->line($this->details['lastline']);
+        // return (new InvoicePaidMailable($this->invoice))
+        //     ->to($notifiable->email)
+        //     ->attachFromStorage('/path/to/file');
     }
 
     /**
