@@ -22,11 +22,12 @@ Route::get('/', function () {
 Route::get('send', [SendEmailController::class, 'kirimnotifikasi']);
 Route::get('send2/{id}', [KirimEmailController::class, 'index']);
 Route::get('testview', [KirimEmailController::class, 'viewpesan']);
-Route::get('send3', function () {
-    $key = ([
-        'name' => 'farhan',
-        'email' =>  'faran.f4124n@gmail.com',
-    ]);
-    $data = KirimEmailController::index($key);
-    return response()->json([$key, $data], 200);
-});
+// Route::get('testview', [KirimEmailController::class, 'sendMail']);
+// Route::get('send3', function () {
+//     $key = ([
+//         'name' => 'farhan',
+//         'email' =>  'faran.f4124n@gmail.com',
+//     ]);
+//     $data = KirimEmailController::index($key);
+//     return response()->json([$key, $data], 200);
+// });

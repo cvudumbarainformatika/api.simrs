@@ -9,11 +9,11 @@ use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 
-class kirimEmail extends Mailable
+class PesanEmail extends Mailable
 {
     use Queueable, SerializesModels;
-    public $data_email;
 
+    public $data_email;
     /**
      * Create a new message instance.
      *
@@ -32,8 +32,7 @@ class kirimEmail extends Mailable
     public function envelope()
     {
         return new Envelope(
-            subject: $this->data_email['subject'],
-            from: $this->data_email['sender_name'],
+            subject: 'SIMTEM INFORMASI LIPA MITRA',
         );
     }
 
@@ -45,8 +44,10 @@ class kirimEmail extends Mailable
     public function content()
     {
         return new Content(
-            view: 'mail.kirimEmail',
-            // with: $this->data_email['data'],
+            markdown: 'mail.kirimpesan',
+            with: [
+                'url' => $this->data_email['url']
+            ]
         );
     }
 
