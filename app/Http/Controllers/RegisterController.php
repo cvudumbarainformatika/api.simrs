@@ -92,9 +92,15 @@ class RegisterController extends Controller
      * @param  \App\Models\Register  $register
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, $id, $length = 8)
     {
         $dataRegister = Register::findOrFail($id);
+        $characters = '0123456789';
+        $charactersLength = strlen($characters);
+        $randPass = '';
+        for ($i = 0; $i < $length; $i++) {
+            $randPass .= $characters[rand(0, $charactersLength - 1)];
+        }
         $request->validate([
             'nama' => 'required|string',
             'email' => 'required|string|email',
@@ -105,12 +111,12 @@ class RegisterController extends Controller
                 'nama' => $request->nama,
                 'email' => $request->email,
                 'status' => 2,
-                'password' => '12345678'
+                'password' => $randPass,
             ]);
             if ($dataRegister) {
                 $data = User::create([
                     'email' => $request->email,
-                    'password' => Hash::make('12345678'),
+                    'password' => Hash::make($randPass),
                     'name' => $request->nama,
                     'status' => 'aktif',
                     'role' => 'surveor'
@@ -121,6 +127,7 @@ class RegisterController extends Controller
                 $kirimEmail = ([
                     'name' => $data->name,
                     'email' =>  $data->email,
+                    'password' => $randPass
                 ]);
                 KirimEmailController::index($kirimEmail);
             }
@@ -135,6 +142,17 @@ class RegisterController extends Controller
             return response()->json(['message' => 'ada kesalahan', 'error' => $e], 500);
         }
     }
+
+    // public function randPassword($length = 8)
+    // {
+    //     $characters = '0123456789';
+    //     $charactersLength = strlen($characters);
+    //     $randPass = '';
+    //     for ($i = 0; $i < $length; $i++) {
+    //         $randPass .= $characters[rand(0, $charactersLength - 1)];
+    //     }
+    //     return $randPass;
+    // }
 
     /**
      * Remove the specified resource from storage.

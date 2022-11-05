@@ -17,17 +17,17 @@ class KirimEmailController extends Controller
     {
         $nama = $data['name'];
         $email = $data['email'];
+        $password = $data['password'];
 
         $data_email = [
             'title' => 'Info penting !!!',
             'url' => 'http://localhost:9000/login',
             'nama' => $nama,
             'email' => $email,
-            'password' => '12345678'
+            'password' => $password
 
         ];
         Mail::to($data['email'])->send(new PesanEmail($data_email));
-        // return view('mail.kirimEmail', compact('data_email'));
         return new JsonResponse(['message' => 'Success'], 200);
     }
     public function viewpesan(Request $request)
@@ -35,13 +35,14 @@ class KirimEmailController extends Controller
 
         $nama = 'nama';
         $email = 'email';
+        $password = 'password';
 
         $data_email = [
             'title' => 'Info penting !!!',
             'url' => 'http://localhost:9000/login',
             'nama' => $nama,
             'email' => $email,
-            'password' => '12345678'
+            'password' => $password
 
         ];
         return view('mail.kirimpesan', compact('data_email'));

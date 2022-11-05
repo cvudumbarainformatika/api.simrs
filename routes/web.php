@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\KirimEmailController;
+use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\SendEmailController;
 use Illuminate\Support\Facades\Route;
 
@@ -22,6 +23,7 @@ Route::get('/', function () {
 Route::get('send', [SendEmailController::class, 'kirimnotifikasi']);
 Route::get('send2/{id}', [KirimEmailController::class, 'index']);
 Route::get('testview', [KirimEmailController::class, 'viewpesan']);
+Route::get('randpass', [RegisterController::class, 'randPassword']);
 // Route::get('testview', [KirimEmailController::class, 'sendMail']);
 // Route::get('send3', function () {
 //     $key = ([
