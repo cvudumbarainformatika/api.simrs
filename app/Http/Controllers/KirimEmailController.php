@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Mail\kirimEmail;
 use App\Mail\PesanEmail;
+use App\Mail\PesanPassword;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
@@ -30,6 +31,20 @@ class KirimEmailController extends Controller
         Mail::to($data['email'])->send(new PesanEmail($data_email));
         return new JsonResponse(['message' => 'Success'], 200);
     }
+
+    public static function pesanPassword($data)
+    {
+        $password = $data['password'];
+
+        $data_password = [
+            'title' => 'PASSWORD BERHASIL DI PERBARUI',
+            'url' => 'http://localhost:9000/login',
+            'password' => $password
+        ];
+        Mail::to($data['email'])->send(new PesanPassword($data_password));
+        return new JsonResponse(['message' => 'Success'], 201);
+    }
+
     public function viewpesan(Request $request)
     {
 

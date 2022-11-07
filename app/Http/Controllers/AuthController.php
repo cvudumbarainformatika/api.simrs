@@ -31,6 +31,7 @@ class AuthController extends Controller
         }
 
         $user = Auth::user();
+        $user->load('register');
         return response()->json([
             'status' => 'success',
             'user' => $user,
@@ -70,7 +71,13 @@ class AuthController extends Controller
     public function me()
     {
         // return new JsonResponse(auth()->user());
-        return response()->json(auth()->user());
+        $user = auth()->user();
+        $user->load('register');
+        $response = [
+            'message' => 'Detail data',
+            'data' => $user
+        ];
+        return response()->json($response);
     }
 
     // public function update(Request $request)

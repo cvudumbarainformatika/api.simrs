@@ -41,21 +41,9 @@ class RegisterController extends Controller
                 'nik' => $request->nik,
                 'nama' => $request->nama,
                 'email' => $request->email,
-                'password' => '12345678',
                 'status' => 1,
-                // 'password' => Hash::make($request->password)
             ]);
 
-            // if ($register) {
-            //     User::create([
-            //         'name' => $request->nama,
-            //         'email' => $request->email,
-            //         'password' => Hash::make('12345678'),
-            //         'role' => 'register',
-            //         'status' => 'tidak aktif',
-            //         'register_id' => $register->id
-            //     ]);
-            // }
 
             return response()->json([
                 'status' => 'success',
@@ -140,6 +128,45 @@ class RegisterController extends Controller
         } catch (\Exception $e) {
             DB::rollBack();
             return response()->json(['message' => 'ada kesalahan', 'error' => $e], 500);
+        }
+    }
+
+    public function updateFull(Request $request, $id)
+    {
+        $data = Register::findOrFail($id);
+        $request->validate([
+            'nik' => 'required',
+            'nama' => 'required|string',
+            'email' => 'required|string|email',
+            'nohp1' => 'required',
+            'nohp2' => 'required',
+            'norekening' => 'required',
+        ]);
+
+        try {
+            $data->update([
+                'nik' => $request->nik,
+                'nama' => $request->nama,
+                'email' => $request->email,
+                'nohp1' => $request->nohp1,
+                'nohp2' => $request->nohp2,
+                'norekening' => $request->norekening,
+                'password' => $request->passwordd,
+                'status' => 3
+            ]);
+            if ($data) {
+                auth()->user()->update([
+                    'password' => Hash::make($request->passwordd)
+                ]);
+            }
+            $response = [
+                'message' => 'Biodata berhasil di tambah',
+                'data' => $data
+            ];
+            return response()->json($response, 201);
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return response()->json(['message' => 'ada kesalahan', 'error' => $e]);
         }
     }
 

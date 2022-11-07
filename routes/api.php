@@ -30,6 +30,7 @@ Route::middleware('api')->group(function () {
     Route::post('/user/{id}', [UserController::class, 'update']);
 
     Route::post('/registeredit/{id}', [RegisterController::class, 'update']);
+    Route::post('/updatefull/{id}', [RegisterController::class, 'updateFull']);
 
     Route::get('/send', [SendEmailController::class, 'kirimnotifikasi']);
     // Route::post('/registeruser', [RegisterController::class, 'registeruser']);
