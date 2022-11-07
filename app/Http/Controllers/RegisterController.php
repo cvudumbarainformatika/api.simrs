@@ -141,6 +141,8 @@ class RegisterController extends Controller
             'nohp1' => 'required',
             'nohp2' => 'required',
             'norekening' => 'required',
+            'password_baru' => 'required|min:6|confirmed',
+            'password_baru_confirmation' => 'required|min:6'
         ]);
 
         try {
@@ -151,12 +153,12 @@ class RegisterController extends Controller
                 'nohp1' => $request->nohp1,
                 'nohp2' => $request->nohp2,
                 'norekening' => $request->norekening,
-                'password' => $request->passwordd,
+                'password' => $request->password_baru,
                 'status' => 3
             ]);
             if ($data) {
                 auth()->user()->update([
-                    'password' => Hash::make($request->passwordd)
+                    'password' => Hash::make($request->password_baru)
                 ]);
             }
             $response = [
